@@ -1,68 +1,46 @@
 const arr = ["rock", "paper", "scissor"];
-function computerChoice (){
-    let mynumber = Math.floor (Math.random()*3);
+
+function computerChoice() {
+    let mynumber = Math.floor(Math.random() * 3);
     return arr[mynumber];
 }
-
-function takingInput (){
-    let choice = prompt ("Enter the number in between \n 1: rock \n 2: paper \n 3: scissor");
-    if (choice > 3 ){
-        alert ("Enter the valid number ")
-        takingInput ();
-    }
-    return choice-1; 
-}
-function peopleChoice (){
-    let valuee = takingInput();
-    return arr[valuee];
-}
-let computerScore = 0 ; 
-let menScore = 0 ; 
-function game (){
-    let choiceOfComputer = computerChoice ();
-    let choiceOfMen = peopleChoice ();
-    if (choiceOfComputer === "rock" ){
-        if (choiceOfMen=== "paper"){
-            menScore++; 
+let computerscore = false ; 
+let menScore = false ; 
+const ulElement = document.querySelector("ul"); 
+const liElement = document.querySelectorAll("li") ; 
+const body= document.querySelector("h1"); 
+liElement.forEach((button)=>{
+    button.addEventListener("click", ()=>{
+        const idOfElement = button.id ; 
+        console.log(idOfElement); 
+        let choiceOfComputer = computerChoice(); 
+        if (idOfElement === "rock"){
+            if (choiceOfComputer === "paper"){
+                computerscore = true ; 
+            }
+            else if (choiceOfComputer ==="scissor") computerscore = false ;
         }
-        else if (choiceOfMen === "scissor"){
-            computerScore++;
+        else if (idOfElement === "paper"){
+            if (choiceOfComputer === "scissor"){
+                computerscore = true ; 
+            }
+            else if (choiceOfComputer ==="rock") computerscore = false ;
         }
-    }
-    else if (choiceOfComputer === "paper" ){
-        if (choiceOfMen=== "scissor"){
-            menScore++; 
+        else if (idOfElement === "scissor"){
+            if (choiceOfComputer === "rock"){
+                computerscore = true ; 
+            }
+            else if (choiceOfComputer ==="paper") computerscore = false ;
         }
-        else if (choiceOfMen === "rock"){
-            computerScore++;
-        }
-    }
-    if (choiceOfComputer === "scissor" ){
-        if (choiceOfMen=== "rock"){
-            menScore++; 
-        }
-        else if (choiceOfMen === "paper"){
-            computerScore++;  
-        }
-    }
-}
-function gamebegin (){
-    for (let i = 0 ; i < 5 ; i++){
-        game (); 
-    }
-
-}
-alert ("It will be a game of five ") ; 
-gamebegin ();
-function winner (){
-    if (menScore> computerScore){
-        alert (`Men has won and the final score is\n Men's score: ${menScore},\n Computer's score :,${computerScore}` );
-    }
-    else if (menScore< computerScore){
-        alert (`Computer has won and the final score is\nMen's score: ${menScore},\n Computer's score :,${computerScore}` );
-    }
-    else {
-        alert (`it is a tie and the final score is\nMen's score: ${menScore},\n Computer's score :,${computerScore}`);
-    }
-}
-winner(); 
+        ulElement.remove (); 
+        let winner ; 
+        if (computerscore) winner = "computer"; 
+        else if (menScore) winner = "you" ; 
+        else winner = "none"
+        const announcementOfWinner = document.createElement("h2"); 
+        announcementOfWinner.textContent = `You chose ${idOfElement} and the computer chose ${choiceOfComputer} so ${winner} won the match `;
+        announcementOfWinner.setAttribute("style", "color : blue ;background-color : white ; width : 80vw; text-align : center")
+        body.append(announcementOfWinner); 
+        
+    });
+})
